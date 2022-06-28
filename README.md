@@ -1,4 +1,4 @@
-# Actions Runner Controller Terraform module
+# Github Actions Runner Controller Terraform module
 
 [![labyrinth labs logo](ll-logo.png)](https://lablabs.io/)
 
@@ -6,8 +6,8 @@ We help companies build, run, deploy and scale software and infrastructure by em
 
 ---
 
-[![Terraform validate](https://github.com/lablabs/terraform-aws-eks-actions-runner-controller/actions/workflows/validate.yaml/badge.svg?branch=main)](https://github.com/lablabs/terraform-aws-eks-actions-runner-controller/actions/workflows/validate.yaml)
-[![pre-commit](https://github.com/lablabs/terraform-aws-eks-actions-runner-controller/actions/workflows/pre-commit.yml/badge.svg?branch=main)](https://github.com/lablabs/terraform-aws-eks-actions-runner-controller/actions/workflows/pre-commit.yml)
+[![Terraform validate](https://github.com/lablabs/terraform-aws-eks-github-actions-runner-controller/actions/workflows/validate.yaml/badge.svg?branch=main)](https://github.com/lablabs/terraform-aws-eks-github-actions-runner-controller/actions/workflows/validate.yaml)
+[![pre-commit](https://github.com/lablabs/terraform-aws-eks-github-actions-runner-controller/actions/workflows/pre-commit.yml/badge.svg?branch=main)](https://github.com/lablabs/terraform-aws-eks-github-actions-runner-controller/actions/workflows/pre-commit.yml)
 
 ## Description
 
