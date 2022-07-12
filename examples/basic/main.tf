@@ -1,6 +1,6 @@
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "3.6.0"
+  version = "3.14.2"
 
   name               = "cluster-autoscaler-vpc"
   cidr               = "10.0.0.0/16"
@@ -21,9 +21,8 @@ module "eks_cluster" {
 
 module "eks_node_group" {
   source  = "cloudposse/eks-node-group/aws"
-  version = "0.25.0"
+  version = "2.4.0"
 
-  cluster_name   = "basic-example"
   instance_types = ["t3.medium"]
   subnet_ids     = module.vpc.public_subnets
   min_size       = 1

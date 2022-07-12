@@ -1,4 +1,4 @@
-# AWS EKS ADDON-NAME Terraform module
+# AWS EKS <$addon-name> Terraform module
 
 [![labyrinth labs logo](ll-logo.png)](https://lablabs.io/)
 
@@ -6,12 +6,12 @@ We help companies build, run, deploy and scale software and infrastructure by em
 
 ---
 
-[![Terraform validate](https://github.com/lablabs/terraform-aws-eks-ADDON-NAME/actions/workflows/validate.yaml/badge.svg)](https://github.com/lablabs/terraform-aws-eks-ADDON-NAME/actions/workflows/validate.yaml)
-[![pre-commit](https://github.com/lablabs/terraform-aws-ADDON-NAME/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/lablabs/terraform-aws-eks-ADDON-NAME/actions/workflows/pre-commit.yml)
+[![Terraform validate](https://github.com/lablabs/terraform-aws-eks-<$addon-name>/actions/workflows/validate.yaml/badge.svg)](https://github.com/lablabs/terraform-aws-eks-<$addon-name>/actions/workflows/validate.yaml)
+[![pre-commit](https://github.com/lablabs/terraform-aws-<$addon-name>/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/lablabs/terraform-aws-eks-<$addon-name>/actions/workflows/pre-commit.yml)
 
 ## Description
 
-A terraform module to deploy the ADDON-NAME on Amazon EKS cluster.
+A terraform module to deploy the <$addon-name> on Amazon EKS cluster.
 
 ## Related Projects
 

@@ -1,5 +1,3 @@
-# data "aws_region" "current" {}
-
 locals {
   values_default = yamlencode({
     # add default values here
