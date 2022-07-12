@@ -4,11 +4,6 @@ variable "enabled" {
   description = "Variable indicating whether deployment is enabled"
 }
 
-variable "cluster_name" {
-  type        = string
-  description = "The name of the cluster"
-}
-
 variable "cluster_identity_oidc_issuer" {
   type        = string
   description = "The OIDC Identity issuer for the cluster"
@@ -23,7 +18,7 @@ variable "cluster_identity_oidc_issuer_arn" {
 
 variable "helm_chart_name" {
   type        = string
-  default     = "<addon-name>"
+  default     = "<$addon-name>"
   description = "Helm chart name to be installed"
 }
 
@@ -35,7 +30,7 @@ variable "helm_chart_version" {
 
 variable "helm_release_name" {
   type        = string
-  default     = "<addon-name>"
+  default     = "<$addon-name>"
   description = "Helm release name"
 }
 variable "helm_repo_url" {
@@ -52,20 +47,20 @@ variable "helm_create_namespace" {
 
 variable "namespace" {
   type        = string
-  default     = "<addon-name>"
-  description = "The K8s namespace in which the <addon-name> service account has been created"
+  default     = "<$addon-name>"
+  description = "The K8s namespace in which the <$addon-name> service account has been created"
 }
 
 variable "settings" {
   type        = map(any)
   default     = {}
-  description = "Additional helm sets which will be passed to the Helm chart values, see https://hub.helm.sh/charts/stable/<addon-name>"
+  description = "Additional helm sets which will be passed to the Helm chart values, see https://hub.helm.sh/charts/stable/<$addon-name>"
 }
 
 variable "values" {
   type        = string
   default     = ""
-  description = "Additional yaml encoded values which will be passed to the Helm chart, see https://hub.helm.sh/charts/stable/<addon-name>"
+  description = "Additional yaml encoded values which will be passed to the Helm chart, see https://hub.helm.sh/charts/stable/<$addon-name>"
 }
 
 # ================ IRSA variables (optional) ================
@@ -113,7 +108,7 @@ variable "irsa_additional_policies" {
 
 variable "irsa_role_name_prefix" {
   type        = string
-  default     = "<addon-name>-irsa"
+  default     = "<$addon-name>-irsa"
   description = "The IRSA role name prefix for vector"
 }
 
@@ -124,8 +119,8 @@ variable "irsa_tags" {
 }
 
 variable "service_account_name" {
-  default     = "<addon-name>"
-  description = "The k8s <addon-name> service account name"
+  default     = "<$addon-name>"
+  description = "The k8s <$addon-name> service account name"
 }
 
 # ================ argo variables (required) ================

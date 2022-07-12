@@ -1,6 +1,3 @@
-# Example of creating IRSA resources (from the addon Cluster-Autoscaler)
-# CONFIG OF IRSA RESOURCES IS OPTIONAL (IT IS NOT REQUIRED BY SOME EKS ADDONS)
-
 locals {
   irsa_role_create = var.enabled && var.rbac_create && var.service_account_create && var.irsa_role_create
 }
@@ -35,7 +32,7 @@ data "aws_iam_policy_document" "this_assume" {
   count = local.irsa_role_create && var.irsa_assume_role_enabled ? 1 : 0
 
   statement {
-    sid    = "AllowAssume<AddonName>Role"
+    sid    = "AllowAssume<$addon-name>Role"
     effect = "Allow"
     actions = [
       "sts:AssumeRole"
@@ -51,7 +48,7 @@ resource "aws_iam_policy" "this" {
 
   name        = "${var.irsa_role_name_prefix}-${var.helm_chart_name}"
   path        = "/"
-  description = "Policy for <AddonName> service"
+  description = "Policy for <$addon-name> service"
   policy      = var.irsa_assume_role_enabled ? data.aws_iam_policy_document.this_assume[0].json : data.aws_iam_policy_document.this[0].json
 
   tags = var.irsa_tags

@@ -13,8 +13,7 @@ output "kubernetes_application_attributes" {
   value       = try(kubernetes_manifest.this, {})
 }
 
-# Uncomment this output if addon creates IAM role
-# output "iam_role_attributes" {
-#   description = "Vector IAM role atributes"
-#   value       = try(aws_iam_role.this[0], {})
-# }
+output "iam_role_attributes" {
+  description = "Vector IAM role atributes"
+  value       = try(aws_iam_role.this[0], {})
+}
