@@ -23,6 +23,7 @@ module "eks_node_group" {
   source  = "cloudposse/eks-node-group/aws"
   version = "2.4.0"
 
+  cluster_name   = module.eks_cluster.eks_cluster_id
   instance_types = ["t3.medium"]
   subnet_ids     = module.vpc.public_subnets
   min_size       = 1
@@ -36,6 +37,8 @@ module "addon_installation_disabled" {
 
   enabled = false
 
+  cluster_identity_oidc_issuer     = module.eks_cluster.eks_cluster_identity_oidc_issuer
+  cluster_identity_oidc_issuer_arn = module.eks_cluster.eks_cluster_identity_oidc_issuer_arn
 }
 
 module "addon_installation_helm" {
@@ -44,6 +47,9 @@ module "addon_installation_helm" {
   enabled           = true
   argo_enabled      = false
   argo_helm_enabled = false
+
+  cluster_identity_oidc_issuer     = module.eks_cluster.eks_cluster_identity_oidc_issuer
+  cluster_identity_oidc_issuer_arn = module.eks_cluster.eks_cluster_identity_oidc_issuer_arn
 
   values = yamlencode({
     # insert sample values here
@@ -56,6 +62,9 @@ module "addon_installation_argo_kubernetes" {
   enabled           = true
   argo_enabled      = true
   argo_helm_enabled = false
+
+  cluster_identity_oidc_issuer     = module.eks_cluster.eks_cluster_identity_oidc_issuer
+  cluster_identity_oidc_issuer_arn = module.eks_cluster.eks_cluster_identity_oidc_issuer_arn
 
   values = yamlencode({
     # insert sample values here
@@ -75,6 +84,8 @@ module "addon_installation_argo_helm" {
   argo_enabled      = true
   argo_helm_enabled = true
 
+  cluster_identity_oidc_issuer     = module.eks_cluster.eks_cluster_identity_oidc_issuer
+  cluster_identity_oidc_issuer_arn = module.eks_cluster.eks_cluster_identity_oidc_issuer_arn
 
   argo_sync_policy = {
     "automated" : {}

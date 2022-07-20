@@ -17,7 +17,7 @@ data "aws_iam_policy_document" "this" {
       "autoscaling:TerminateInstanceInAutoScalingGroup",
       "ec2:DescribeLaunchTemplateVersions",
       "ec2:DescribeInstanceTypes"
-    ]
+    ] # checkov:skip=CKV_AWS_111
 
     resources = [
       "*",
