@@ -92,7 +92,7 @@ variable "irsa_policy_enabled" {
 variable "irsa_assume_role_enabled" {
   type        = bool
   default     = false
-  description = "Whether IRSA is allowed to assume role defined by assume_role_arn."
+  description = "Whether IRSA is allowed to assume role defined by irsa_assume_role_arn."
 }
 
 variable "irsa_assume_role_arn" {
