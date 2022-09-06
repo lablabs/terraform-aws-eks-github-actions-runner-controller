@@ -109,7 +109,7 @@ variable "irsa_additional_policies" {
 variable "irsa_role_name_prefix" {
   type        = string
   default     = "<$addon-name>-irsa"
-  description = "The IRSA role name prefix for vector"
+  description = "The IRSA role name prefix for <$addon-name>"
 }
 
 variable "irsa_tags" {
