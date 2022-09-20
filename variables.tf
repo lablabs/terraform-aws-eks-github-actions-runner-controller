@@ -96,6 +96,7 @@ variable "irsa_assume_role_enabled" {
 }
 
 variable "irsa_assume_role_arn" {
+  type        = string
   default     = ""
   description = "Assume role arn. Assume role must be enabled."
 }
@@ -119,6 +120,7 @@ variable "irsa_tags" {
 }
 
 variable "service_account_name" {
+  type        = string
   default     = "<$addon-name>"
   description = "The k8s <$addon-name> service account name"
 }
@@ -156,6 +158,10 @@ variable "argo_project" {
 }
 
 variable "argo_info" {
+  type = list(object({
+    name  = string
+    value = string
+  }))
   default = [{
     "name"  = "terraform"
     "value" = "true"
@@ -164,11 +170,13 @@ variable "argo_info" {
 }
 
 variable "argo_sync_policy" {
+  type        = any
   description = "ArgoCD syncPolicy manifest parameter"
   default     = {}
 }
 
 variable "argo_metadata" {
+  type = any
   default = {
     "finalizers" : [
       "resources-finalizer.argocd.argoproj.io"
@@ -178,11 +186,13 @@ variable "argo_metadata" {
 }
 
 variable "argo_apiversion" {
+  type        = string
   default     = "argoproj.io/v1alpha1"
   description = "ArgoCD Appliction apiVersion"
 }
 
 variable "argo_spec" {
+  type        = any
   default     = {}
   description = "ArgoCD Application spec configuration. Override or create additional spec parameters"
 }
@@ -202,6 +212,7 @@ variable "argo_kubernetes_manifest_computed_fields" {
 }
 
 variable "argo_kubernetes_manifest_field_manager_name" {
+  type        = string
   default     = "Terraform"
   description = "The name of the field manager to use when applying the kubernetes manifest resource. Defaults to Terraform"
 }
