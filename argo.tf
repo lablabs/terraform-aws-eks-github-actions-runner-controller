@@ -43,7 +43,6 @@ data "utils_deep_merge_yaml" "argo_helm_values" {
   ])
 }
 
-
 resource "helm_release" "argo_application" {
   count = var.enabled && var.argo_enabled && var.argo_helm_enabled ? 1 : 0
 
@@ -56,7 +55,6 @@ resource "helm_release" "argo_application" {
     var.argo_helm_values
   ]
 }
-
 
 resource "kubernetes_manifest" "this" {
   count = var.enabled && var.argo_enabled && !var.argo_helm_enabled ? 1 : 0
