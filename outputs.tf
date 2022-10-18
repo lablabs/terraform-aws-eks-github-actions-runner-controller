@@ -10,7 +10,7 @@ output "helm_release_application_metadata" {
 
 output "kubernetes_application_attributes" {
   description = "Argo kubernetes manifest attributes"
-  value       = try(kubernetes_manifest.this, {})
+  value       = try(kubernetes_manifest.this[0], {})
 }
 
 output "iam_role_attributes" {
