@@ -9,20 +9,21 @@ on:
 
 env:
   TERRAFORM_DOCS_VERSION: "v0.16.0"
-  TFLINT_VERSION: "v0.36.2"
+  TFLINT_VERSION: "v0.40.1"
+  CHECKOV_VERSION: "2.1.212"
 
 jobs:
   pre-commit:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v2
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v3
 
     - name: Install additional pre-commit hooks
       shell: bash
       run: |
         echo "########### Install Checkov ####################"
-        pip install checkov
+        pip install checkov==${{ env.CHECKOV_VERSION }}
 
         echo "########### Install Terraform-docs #############"
         wget https://github.com/terraform-docs/terraform-docs/releases/download/${{ env.TERRAFORM_DOCS_VERSION }}/terraform-docs-${{ env.TERRAFORM_DOCS_VERSION }}-linux-amd64.tar.gz
@@ -40,4 +41,4 @@ jobs:
         ~/tflint/bin/tflint --init
 
     - name: Run pre-commit
-      uses: pre-commit/action@v2.0.3
+      uses: pre-commit/action@v3.0.0
