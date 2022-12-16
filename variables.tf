@@ -4,114 +4,17 @@ variable "enabled" {
   description = "Variable indicating whether deployment is enabled"
 }
 
-variable "namespace" {
+variable "cluster_identity_oidc_issuer" {
   type        = string
-  default     = "kube-system"
-  description = "The K8s namespace in which the metrics-server service account has been created"
+  description = "The OIDC Identity issuer for the cluster"
 }
 
-variable "settings" {
-  type        = map(any)
-  default     = {}
-  description = "Additional settings which will be passed to the Helm chart values, see https://hub.helm.sh/charts/stable/metrics-server"
-}
-
-variable "values" {
+variable "cluster_identity_oidc_issuer_arn" {
   type        = string
-  default     = ""
-  description = "Additional yaml encoded values which will be passed to the Helm chart."
+  description = "The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a service account"
 }
 
-variable "argo_enabled" {
-  type        = bool
-  default     = false
-  description = "If set to true, the module will be deployed as ArgoCD application, otherwise it will be deployed as a Helm release"
-}
-
-variable "argo_namespace" {
-  type        = string
-  default     = "argo"
-  description = "Namespace to deploy ArgoCD application CRD to"
-}
-
-variable "argo_destination_server" {
-  type        = string
-  default     = "https://kubernetes.default.svc"
-  description = "Destination server for ArgoCD Application"
-}
-
-variable "argo_project" {
-  type        = string
-  default     = "default"
-  description = "ArgoCD Application project"
-}
-
-variable "argo_info" {
-  default = [{
-    "name"  = "terraform"
-    "value" = "true"
-  }]
-  description = "ArgoCD info manifest parameter"
-}
-
-variable "argo_sync_policy" {
-  default     = {}
-  description = "ArgoCD syncPolicy manifest parameter"
-}
-
-variable "argo_metadata" {
-  default = {
-    "finalizers" : [
-      "resources-finalizer.argocd.argoproj.io"
-    ]
-  }
-  description = "ArgoCD Application metadata configuration. Override or create additional metadata parameters"
-}
-
-variable "argo_spec" {
-  default     = {}
-  description = "ArgoCD Application spec configuration. Override or create additional spec parameters"
-}
-
-variable "argo_apiversion" {
-  default     = "argoproj.io/v1alpha1"
-  description = "ArgoCD Appliction apiVersion"
-}
-
-variable "argo_kubernetes_manifest_computed_fields" {
-  type        = list(string)
-  default     = ["metadata.labels", "metadata.annotations"]
-  description = "List of paths of fields to be handled as \"computed\". The user-configured value for the field will be overridden by any different value returned by the API after apply."
-}
-
-variable "argo_kubernetes_manifest_field_manager_name" {
-  default     = "Terraform"
-  description = "The name of the field manager to use when applying the kubernetes manifest resource. Defaults to Terraform"
-}
-
-variable "argo_kubernetes_manifest_field_manager_force_conflicts" {
-  type        = bool
-  default     = false
-  description = "Forcibly override any field manager conflicts when applying the kubernetes manifest resource"
-}
-
-variable "argo_kubernetes_manifest_wait_fields" {
-  type        = map(string)
-  default     = {}
-  description = "A map of fields and a corresponding regular expression with a pattern to wait for. The provider will wait until the field matches the regular expression. Use * for any value."
-}
-
-variable "argo_helm_enabled" {
-  type        = bool
-  default     = false
-  description = "If set to true, the ArgoCD Application manifest will be deployed using Kubernetes provider as a Helm release. Otherwise it'll be deployed as a Kubernetes manifest. See Readme for more info"
-}
-
-variable "argo_helm_values" {
-  type        = string
-  default     = ""
-  description = "Value overrides to use when deploying argo application object with helm"
-}
+# ================ common variables (required) ================
 
 variable "helm_chart_name" {
   type        = string
@@ -121,7 +24,7 @@ variable "helm_chart_name" {
 
 variable "helm_chart_version" {
   type        = string
-  default     = "0.19.0"
+  default     = "0.21.1"
   description = "Version of the Helm chart"
 }
 
@@ -142,6 +45,168 @@ variable "helm_create_namespace" {
   default     = true
   description = "Create the namespace if it does not yet exist"
 }
+
+variable "namespace" {
+  type        = string
+  default     = "actions-runner-controller"
+  description = "The K8s namespace in which the actions-runner-controller service account has been created"
+}
+
+variable "settings" {
+  type        = map(any)
+  default     = {}
+  description = "Additional helm sets which will be passed to the Helm chart values, see https://artifacthub.io/packages/helm/actions-runner-controller/actions-runner-controller"
+}
+
+variable "values" {
+  type        = string
+  default     = ""
+  description = "Additional yaml encoded values which will be passed to the Helm chart, see https://artifacthub.io/packages/helm/actions-runner-controller/actions-runner-controller"
+}
+
+# ================ IRSA variables (optional) ================
+
+variable "service_account_create" {
+  type        = bool
+  default     = true
+  description = "Whether to create Service Account"
+}
+
+variable "service_account_name" {
+  type        = string
+  default     = "actions-runner-controller"
+  description = "The k8s actions-runner-controller service account name"
+}
+
+variable "irsa_role_create" {
+  type        = bool
+  default     = true
+  description = "Whether to create IRSA role and annotate service account"
+}
+
+variable "irsa_additional_policies" {
+  type        = map(string)
+  default     = {}
+  description = "Map of the additional policies to be attached to default role. Where key is arbitrary id and value is policy arn."
+}
+
+variable "irsa_role_name_prefix" {
+  type        = string
+  default     = "actions-runner-controller-irsa"
+  description = "The IRSA role name prefix for actions-runner-controller"
+}
+
+variable "irsa_tags" {
+  type        = map(string)
+  default     = {}
+  description = "IRSA resources tags"
+}
+
+# ================ argo variables (required) ================
+
+variable "argo_namespace" {
+  type        = string
+  default     = "argo"
+  description = "Namespace to deploy ArgoCD application CRD to"
+}
+
+variable "argo_enabled" {
+  type        = bool
+  default     = false
+  description = "If set to true, the module will be deployed as ArgoCD application, otherwise it will be deployed as a Helm release"
+}
+
+variable "argo_helm_enabled" {
+  type        = bool
+  default     = false
+  description = "If set to true, the ArgoCD Application manifest will be deployed using Kubernetes provider as a Helm release. Otherwise it'll be deployed as a Kubernetes manifest. See Readme for more info"
+}
+
+variable "argo_destination_server" {
+  type        = string
+  default     = "https://kubernetes.default.svc"
+  description = "Destination server for ArgoCD Application"
+}
+
+variable "argo_project" {
+  type        = string
+  default     = "default"
+  description = "ArgoCD Application project"
+}
+
+variable "argo_info" {
+  type = list(object({
+    name  = string
+    value = string
+  }))
+  default = [{
+    "name"  = "terraform"
+    "value" = "true"
+  }]
+  description = "ArgoCD info manifest parameter"
+}
+
+variable "argo_sync_policy" {
+  type        = any
+  description = "ArgoCD syncPolicy manifest parameter"
+  default     = {}
+}
+
+variable "argo_metadata" {
+  type = any
+  default = {
+    "finalizers" : [
+      "resources-finalizer.argocd.argoproj.io"
+    ]
+  }
+  description = "ArgoCD Application metadata configuration. Override or create additional metadata parameters"
+}
+
+variable "argo_apiversion" {
+  type        = string
+  default     = "argoproj.io/v1alpha1"
+  description = "ArgoCD Appliction apiVersion"
+}
+
+variable "argo_spec" {
+  type        = any
+  default     = {}
+  description = "ArgoCD Application spec configuration. Override or create additional spec parameters"
+}
+
+variable "argo_helm_values" {
+  type        = string
+  default     = ""
+  description = "Value overrides to use when deploying argo application object with helm"
+}
+
+# ================ argo kubernetes manifest variables (required) ================
+
+variable "argo_kubernetes_manifest_computed_fields" {
+  type        = list(string)
+  default     = ["metadata.labels", "metadata.annotations"]
+  description = "List of paths of fields to be handled as \"computed\". The user-configured value for the field will be overridden by any different value returned by the API after apply."
+}
+
+variable "argo_kubernetes_manifest_field_manager_name" {
+  type        = string
+  default     = "Terraform"
+  description = "The name of the field manager to use when applying the kubernetes manifest resource. Defaults to Terraform"
+}
+
+variable "argo_kubernetes_manifest_field_manager_force_conflicts" {
+  type        = bool
+  default     = false
+  description = "Forcibly override any field manager conflicts when applying the kubernetes manifest resource"
+}
+
+variable "argo_kubernetes_manifest_wait_fields" {
+  type        = map(string)
+  default     = {}
+  description = "A map of fields and a corresponding regular expression with a pattern to wait for. The provider will wait until the field matches the regular expression. Use * for any value."
+}
+
+# ================ helm release variables (required) ================
 
 variable "helm_repo_key_file" {
   type        = string
@@ -257,7 +322,6 @@ variable "helm_wait_for_jobs" {
   description = "If wait is enabled, will wait until all helm Jobs have been completed before marking the release as successful. It will wait for as long as timeout"
 }
 
-
 variable "helm_skip_crds" {
   type        = bool
   default     = false
@@ -274,12 +338,6 @@ variable "helm_disable_openapi_validation" {
   type        = bool
   default     = false
   description = "If set, the installation process will not validate rendered helm templates against the Kubernetes OpenAPI Schema"
-}
-
-variable "helm_set_sensitive" {
-  type        = map(any)
-  default     = {}
-  description = "Value block with custom sensitive values to be merged with the values yaml that won't be exposed in the plan's diff"
 }
 
 variable "helm_dependency_update" {
@@ -300,14 +358,20 @@ variable "helm_description" {
   description = "Set helm release description attribute (visible in the history)"
 }
 
-variable "helm_postrender" {
-  type        = map(any)
-  default     = {}
-  description = "Value block with a path to a binary file to run after helm renders the manifest which can alter the manifest contents"
-}
-
 variable "helm_lint" {
   type        = bool
   default     = false
   description = "Run the helm chart linter during the plan"
+}
+
+variable "helm_set_sensitive" {
+  type        = map(any)
+  default     = {}
+  description = "Value block with custom sensitive values to be merged with the values yaml that won't be exposed in the plan's diff"
+}
+
+variable "helm_postrender" {
+  type        = map(any)
+  default     = {}
+  description = "Value block with a path to a binary file to run after helm renders the manifest which can alter the manifest contents"
 }
