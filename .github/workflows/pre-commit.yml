@@ -10,7 +10,7 @@ on:
 env:
   TERRAFORM_DOCS_VERSION: "v0.16.0"
   TFLINT_VERSION: "v0.40.1"
-  CHECKOV_VERSION: "2.1.212"
+  CHECKOV_VERSION: "2.2.158"
 
 jobs:
   pre-commit:
