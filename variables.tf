@@ -36,7 +36,7 @@ variable "helm_release_name" {
 
 variable "helm_repo_url" {
   type        = string
-  default     = "https://github.com/actions-runner-controller/actions-runner-controller"
+  default     = "https://actions-runner-controller.github.io/actions-runner-controller"
   description = "Helm repository"
 }
 
