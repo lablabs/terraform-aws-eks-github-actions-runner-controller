@@ -71,7 +71,6 @@ resource "kubernetes_manifest" "this" {
       var.argo_spec
     )
   }
-
   computed_fields = var.argo_kubernetes_manifest_computed_fields
 
   field_manager {
