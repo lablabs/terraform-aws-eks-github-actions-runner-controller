@@ -15,14 +15,20 @@ repos:
     # renovate: datasource=github-releases depName=antonbabenko/pre-commit-terraform
     rev: 55d0143972eec4905fdaea2f444f1e88218f9dce # v1.96.3 # pragma: allowlist secret
     hooks:
+      - id: terraform_validate
       - id: terraform_fmt
+      - id: terraform_providers_lock
+        args:
+          - --hook-config=--mode=only-check-is-current-lockfile-cross-platform
+          - --args=-platform=darwin_amd64
+          - --args=-platform=darwin_arm64
+          - --args=-platform=linux_amd64
       - id: terraform_tflint
         args:
           - --args=--config=__GIT_WORKING_DIR__/.tflint.hcl
-      - id: terraform_validate
       - id: terraform_checkov
         args:
-          - "--args=--skip-check CKV_TF_1" #CKV_TF_1: "Ensure Terraform module sources use a commit hash"
+          - "--args=--quiet --skip-check CKV_TF_1" # CKV_TF_1: "Ensure Terraform module sources use a commit hash"
       - id: terraform_docs
         args:
           - "--args=--config=.terraform-docs.yml"
