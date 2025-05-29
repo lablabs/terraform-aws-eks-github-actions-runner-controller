@@ -84,6 +84,10 @@ module "addon" {
 
   settings = var.settings != null ? var.settings : try(local.addon.settings, null)
   values   = one(data.utils_deep_merge_yaml.values[*].output)
+
+  depends_on = [
+    local.addon_depends_on
+  ]
 }
 
 data "utils_deep_merge_yaml" "values" {
